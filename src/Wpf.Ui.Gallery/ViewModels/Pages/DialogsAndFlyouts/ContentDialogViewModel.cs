@@ -4,26 +4,20 @@
 // All Rights Reserved.
 
 using Wpf.Ui.Controls;
+using Wpf.Ui.Extensions;
 using Wpf.Ui.Gallery.Controls;
 
 namespace Wpf.Ui.Gallery.ViewModels.Pages.DialogsAndFlyouts;
 
-public partial class ContentDialogViewModel : ObservableObject
+public partial class ContentDialogViewModel(IContentDialogService contentDialogService) : ViewModel
 {
-    public ContentDialogViewModel(IContentDialogService contentDialogService)
-    {
-        _contentDialogService = contentDialogService;
-    }
-
-    private readonly IContentDialogService _contentDialogService;
-
     [ObservableProperty]
     private string _dialogResultText = string.Empty;
 
     [RelayCommand]
     private async Task OnShowDialog(object content)
     {
-        var result = await _contentDialogService.ShowSimpleDialogAsync(
+        ContentDialogResult result = await contentDialogService.ShowSimpleDialogAsync(
             new SimpleContentDialogCreateOptions()
             {
                 Title = "Save your work?",
@@ -38,16 +32,15 @@ public partial class ContentDialogViewModel : ObservableObject
         {
             ContentDialogResult.Primary => "User saved their work",
             ContentDialogResult.Secondary => "User did not save their work",
-            _ => "User cancelled the dialog"
+            _ => "User cancelled the dialog",
         };
     }
 
     [RelayCommand]
     private async Task OnShowSignInContentDialog()
     {
-        var termsOfUseContentDialog = new TermsOfUseContentDialog(
-            _contentDialogService.GetContentPresenter()
-        );
-        await termsOfUseContentDialog.ShowAsync();
+        var termsOfUseContentDialog = new TermsOfUseContentDialog(contentDialogService.GetDialogHost());
+
+        _ = await termsOfUseContentDialog.ShowAsync();
     }
 }

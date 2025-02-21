@@ -7,55 +7,54 @@ using Microsoft.Win32;
 
 namespace Wpf.Ui.Gallery.ViewModels.Pages.OpSystem;
 
-public partial class FilePickerViewModel : ObservableObject
+public partial class FilePickerViewModel : ViewModel
 {
     [ObservableProperty]
     private Visibility _openedFilePathVisibility = Visibility.Collapsed;
 
     [ObservableProperty]
-    private string _openedFilePath = String.Empty;
+    private string _openedFilePath = string.Empty;
 
     [ObservableProperty]
     private Visibility _openedPicturePathVisibility = Visibility.Collapsed;
 
     [ObservableProperty]
-    private string _openedPicturePath = String.Empty;
+    private string _openedPicturePath = string.Empty;
 
     [ObservableProperty]
     private Visibility _openedMultiplePathVisibility = Visibility.Collapsed;
 
     [ObservableProperty]
-    private string _openedMultiplePath = String.Empty;
+    private string _openedMultiplePath = string.Empty;
 
     [ObservableProperty]
     private Visibility _openedFolderPathVisibility = Visibility.Collapsed;
 
     [ObservableProperty]
-    private string _openedFolderPath = String.Empty;
+    private string _openedFolderPath = string.Empty;
 
     [ObservableProperty]
-    private string _fileToSaveName = String.Empty;
+    private string _fileToSaveName = string.Empty;
 
     [ObservableProperty]
-    private string _fileToSaveContents = String.Empty;
+    private string _fileToSaveContents = string.Empty;
 
     [ObservableProperty]
     private Visibility _savedFileNoticeVisibility = Visibility.Collapsed;
 
     [ObservableProperty]
-    private string _savedFileNotice = String.Empty;
+    private string _savedFileNotice = string.Empty;
 
     [RelayCommand]
     public void OnOpenFile()
     {
         OpenedFilePathVisibility = Visibility.Collapsed;
 
-        OpenFileDialog openFileDialog =
-            new()
-            {
-                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                Filter = "All files (*.*)|*.*"
-            };
+        OpenFileDialog openFileDialog = new()
+        {
+            InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+            Filter = "All files (*.*)|*.*",
+        };
 
         if (openFileDialog.ShowDialog() != true)
         {
@@ -76,12 +75,11 @@ public partial class FilePickerViewModel : ObservableObject
     {
         OpenedPicturePathVisibility = Visibility.Collapsed;
 
-        OpenFileDialog openFileDialog =
-            new()
-            {
-                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures),
-                Filter = "Image files (*.bmp;*.jpg;*.jpeg;*.png)|*.bmp;*.jpg;*.jpeg;*.png|All files (*.*)|*.*"
-            };
+        OpenFileDialog openFileDialog = new()
+        {
+            InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures),
+            Filter = "Image files (*.bmp;*.jpg;*.jpeg;*.png)|*.bmp;*.jpg;*.jpeg;*.png|All files (*.*)|*.*",
+        };
 
         if (openFileDialog.ShowDialog() != true)
         {
@@ -102,13 +100,12 @@ public partial class FilePickerViewModel : ObservableObject
     {
         OpenedMultiplePathVisibility = Visibility.Collapsed;
 
-        OpenFileDialog openFileDialog =
-            new()
-            {
-                Multiselect = true,
-                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                Filter = "All files (*.*)|*.*"
-            };
+        OpenFileDialog openFileDialog = new()
+        {
+            Multiselect = true,
+            InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+            Filter = "All files (*.*)|*.*",
+        };
 
         if (openFileDialog.ShowDialog() != true)
         {
@@ -122,7 +119,7 @@ public partial class FilePickerViewModel : ObservableObject
 
         var fileNames = openFileDialog.FileNames;
 
-        OpenedMultiplePath = String.Join("\n", fileNames);
+        OpenedMultiplePath = string.Join("\n", fileNames);
         OpenedMultiplePathVisibility = Visibility.Visible;
     }
 
@@ -132,12 +129,11 @@ public partial class FilePickerViewModel : ObservableObject
 #if NET8_0_OR_GREATER
         OpenedFolderPathVisibility = Visibility.Collapsed;
 
-        OpenFolderDialog openFolderDialog =
-            new()
-            {
-                Multiselect = true,
-                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
-            };
+        OpenFolderDialog openFolderDialog = new()
+        {
+            Multiselect = true,
+            InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+        };
 
         if (openFolderDialog.ShowDialog() != true)
         {
@@ -149,7 +145,7 @@ public partial class FilePickerViewModel : ObservableObject
             return;
         }
 
-        OpenedFolderPath = String.Join("\n", openFolderDialog.FolderNames);
+        OpenedFolderPath = string.Join("\n", openFolderDialog.FolderNames);
         OpenedFolderPathVisibility = Visibility.Visible;
 #else
         OpenedFolderPath = "OpenFolderDialog requires .NET 8 or newer";
@@ -162,20 +158,18 @@ public partial class FilePickerViewModel : ObservableObject
     {
         SavedFileNoticeVisibility = Visibility.Collapsed;
 
-        SaveFileDialog saveFileDialog =
-            new()
-            {
-                Filter = "Text Files (*.txt)|*.txt",
-                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
-            };
+        SaveFileDialog saveFileDialog = new()
+        {
+            Filter = "Text Files (*.txt)|*.txt",
+            InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+        };
 
-        if (!String.IsNullOrEmpty(FileToSaveName))
+        if (!string.IsNullOrEmpty(FileToSaveName))
         {
             var invalidChars =
                 new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars());
 
-            saveFileDialog.FileName = String
-                .Join(
+            saveFileDialog.FileName = string.Join(
                     "_",
                     FileToSaveName.Split(invalidChars.ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
                 )

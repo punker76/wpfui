@@ -5,20 +5,20 @@
 
 namespace Wpf.Ui.Gallery.ViewModels.Pages.BasicInput;
 
-public partial class ComboBoxViewModel : ObservableObject
+public partial class ComboBoxViewModel : ViewModel
 {
     [ObservableProperty]
-    private IList<string> _comboBoxFontFamilies = new ObservableCollection<string>
-    {
+    private ObservableCollection<string> _comboBoxFontFamilies =
+    [
         "Arial",
         "Comic Sans MS",
         "Segoe UI",
-        "Times New Roman"
-    };
+        "Times New Roman",
+    ];
 
     [ObservableProperty]
-    private IList<int> _comboBoxFontSizes = new ObservableCollection<int>
-    {
+    private ObservableCollection<int> _comboBoxFontSizes =
+    [
         8,
         9,
         10,
@@ -32,6 +32,6 @@ public partial class ComboBoxViewModel : ObservableObject
         28,
         36,
         48,
-        72
-    };
+        72,
+    ];
 }

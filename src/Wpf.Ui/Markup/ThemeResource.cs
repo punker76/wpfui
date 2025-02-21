@@ -13,7 +13,6 @@ namespace Wpf.Ui.Markup;
 /// &lt;ui:TextBox Foreground={ui:ThemeResource TextFillColorSecondaryBrush} /&gt;
 /// </code>
 /// </example>
-#pragma warning disable CS1591
 public enum ThemeResource
 {
     /// <summary>
@@ -264,5 +263,5 @@ public enum ThemeResource
     /// <summary>
     /// Gradient <see cref="Brush"/>.
     /// </summary>
-    AccentControlElevationBorderBrush
+    AccentControlElevationBorderBrush,
 }

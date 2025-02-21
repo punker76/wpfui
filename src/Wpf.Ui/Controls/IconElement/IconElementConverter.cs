@@ -3,23 +3,25 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-using Wpf.Ui.Extensions;
-
 // ReSharper disable once CheckNamespace
 namespace Wpf.Ui.Controls;
 
 /// <summary>
-/// Tries to convert <see cref="SymbolRegular"/> and <seealso cref="SymbolFilled"/>  to <see cref="SymbolRegular"/>.
+/// Tries to convert <see cref="SymbolRegular"/> and <seealso cref="SymbolFilled"/>  to <see cref="SymbolIcon"/>.
 /// </summary>
 public class IconElementConverter : TypeConverter
 {
     public override bool CanConvertFrom(ITypeDescriptorContext? context, Type sourceType)
     {
         if (sourceType == typeof(SymbolRegular))
+        {
             return true;
+        }
 
         if (sourceType == typeof(SymbolFilled))
+        {
             return true;
+        }
 
         return false;
     }
@@ -35,7 +37,7 @@ public class IconElementConverter : TypeConverter
         {
             SymbolRegular symbolRegular => new SymbolIcon(symbolRegular),
             SymbolFilled symbolFilled => new SymbolIcon(symbolFilled.Swap(), filled: true),
-            _ => null
+            _ => null,
         };
 
     public override object ConvertTo(

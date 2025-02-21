@@ -3,24 +3,29 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-using System.Windows.Threading;
 using Microsoft.Web.WebView2.Wpf;
 using Wpf.Ui.Gallery.Controllers;
 using Wpf.Ui.Gallery.Models.Monaco;
 
 namespace Wpf.Ui.Gallery.ViewModels.Windows;
 
-public partial class MonacoWindowViewModel : ObservableObject
+public partial class MonacoWindowViewModel : ViewModel
 {
     private MonacoController? _monacoController;
 
     public void SetWebView(WebView2 webView)
     {
         webView.NavigationCompleted += OnWebViewNavigationCompleted;
-        webView.UseLayoutRounding = true;
-        webView.DefaultBackgroundColor = System.Drawing.Color.Transparent;
-        webView.Source = new Uri(
-            System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, @"Assets\Monaco\index.html")
+        webView.SetCurrentValue(FrameworkElement.UseLayoutRoundingProperty, true);
+        webView.SetCurrentValue(WebView2.DefaultBackgroundColorProperty, System.Drawing.Color.Transparent);
+        webView.SetCurrentValue(
+            WebView2.SourceProperty,
+            new Uri(
+                System.IO.Path.Combine(
+                    System.AppDomain.CurrentDomain.BaseDirectory,
+                    @"Assets\Monaco\index.html"
+                )
+            )
         );
 
         _monacoController = new MonacoController(webView);
@@ -49,10 +54,10 @@ public partial class MonacoWindowViewModel : ObservableObject
         Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs e
     )
     {
-        DispatchAsync(InitializeEditorAsync);
+        _ = DispatchAsync(InitializeEditorAsync);
     }
 
-    private DispatcherOperation<TResult> DispatchAsync<TResult>(Func<TResult> callback)
+    private static DispatcherOperation<TResult> DispatchAsync<TResult>(Func<TResult> callback)
     {
         return Application.Current.Dispatcher.InvokeAsync(callback);
     }

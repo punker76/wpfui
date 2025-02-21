@@ -3,9 +3,9 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-// This Source Code is partially based on reverse engineering of the Windows Operating System,
-// and is intended for use on Windows systems only.
-// This Source Code is partially based on the source code provided by the .NET Foundation.
+/* This Source Code is partially based on reverse engineering of the Windows Operating System,
+   and is intended for use on Windows systems only.
+   This Source Code is partially based on the source code provided by the .NET Foundation. */
 
 using Wpf.Ui.Controls;
 using Wpf.Ui.TaskBar;
@@ -18,7 +18,7 @@ namespace Wpf.Ui.Interop;
 internal static class UnsafeReflection
 {
     /// <summary>
-    /// Casts <see cref="BackgroundType"/> to <see cref="Dwmapi.DWMSBT"/>.
+    /// Casts <see cref="WindowBackdropType"/> to <see cref="Dwmapi.DWMSBT"/>.
     /// </summary>
     public static Dwmapi.DWMSBT Cast(WindowBackdropType backgroundType)
     {
@@ -28,7 +28,7 @@ internal static class UnsafeReflection
             WindowBackdropType.Mica => Dwmapi.DWMSBT.DWMSBT_MAINWINDOW,
             WindowBackdropType.Acrylic => Dwmapi.DWMSBT.DWMSBT_TRANSIENTWINDOW,
             WindowBackdropType.Tabbed => Dwmapi.DWMSBT.DWMSBT_TABBEDWINDOW,
-            _ => Dwmapi.DWMSBT.DWMSBT_DISABLE
+            _ => Dwmapi.DWMSBT.DWMSBT_DISABLE,
         };
     }
 
@@ -42,7 +42,7 @@ internal static class UnsafeReflection
             WindowCornerPreference.Round => Dwmapi.DWM_WINDOW_CORNER_PREFERENCE.ROUND,
             WindowCornerPreference.RoundSmall => Dwmapi.DWM_WINDOW_CORNER_PREFERENCE.ROUNDSMALL,
             WindowCornerPreference.DoNotRound => Dwmapi.DWM_WINDOW_CORNER_PREFERENCE.DONOTROUND,
-            _ => Dwmapi.DWM_WINDOW_CORNER_PREFERENCE.DEFAULT
+            _ => Dwmapi.DWM_WINDOW_CORNER_PREFERENCE.DEFAULT,
         };
     }
 
@@ -57,7 +57,7 @@ internal static class UnsafeReflection
             TaskBarProgressState.Error => ShObjIdl.TBPFLAG.TBPF_ERROR,
             TaskBarProgressState.Paused => ShObjIdl.TBPFLAG.TBPF_PAUSED,
             TaskBarProgressState.Normal => ShObjIdl.TBPFLAG.TBPF_NORMAL,
-            _ => Wpf.Ui.Interop.ShObjIdl.TBPFLAG.TBPF_NOPROGRESS
+            _ => Wpf.Ui.Interop.ShObjIdl.TBPFLAG.TBPF_NOPROGRESS,
         };
     }
 
@@ -72,7 +72,7 @@ internal static class UnsafeReflection
             ShObjIdl.TBPFLAG.TBPF_ERROR => TaskBarProgressState.Error,
             ShObjIdl.TBPFLAG.TBPF_PAUSED => TaskBarProgressState.Paused,
             ShObjIdl.TBPFLAG.TBPF_NORMAL => TaskBarProgressState.Normal,
-            _ => TaskBarProgressState.None
+            _ => TaskBarProgressState.None,
         };
     }
 }

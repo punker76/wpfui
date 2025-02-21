@@ -5,7 +5,7 @@
 
 namespace Wpf.Ui.Gallery.ViewModels.Windows;
 
-public partial class EditorWindowViewModel : ObservableObject
+public partial class EditorWindowViewModel : ViewModel
 {
     [ObservableProperty]
     private bool _isWordWrapEnbaled = false;
@@ -17,7 +17,7 @@ public partial class EditorWindowViewModel : ObservableObject
     private int _progress = 70;
 
     [ObservableProperty]
-    private string _currentlyOpenedFile = String.Empty;
+    private string _currentlyOpenedFile = string.Empty;
 
     [ObservableProperty]
     private Visibility _statusBarVisibility = Visibility.Visible;
@@ -25,9 +25,9 @@ public partial class EditorWindowViewModel : ObservableObject
     [RelayCommand]
     public void OnStatusBarAction(string value)
     {
-        if (String.IsNullOrEmpty(value))
+        if (string.IsNullOrEmpty(value))
+        {
             return;
-
-        switch (value) { }
+        }
     }
 }
