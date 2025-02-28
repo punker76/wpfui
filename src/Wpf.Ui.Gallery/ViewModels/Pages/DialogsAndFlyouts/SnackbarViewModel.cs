@@ -7,14 +7,8 @@ using Wpf.Ui.Controls;
 
 namespace Wpf.Ui.Gallery.ViewModels.Pages.DialogsAndFlyouts;
 
-public partial class SnackbarViewModel : ObservableObject
+public partial class SnackbarViewModel(ISnackbarService snackbarService) : ViewModel
 {
-    public SnackbarViewModel(ISnackbarService snackbarService)
-    {
-        _snackbarService = snackbarService;
-    }
-
-    private readonly ISnackbarService _snackbarService;
     private ControlAppearance _snackbarAppearance = ControlAppearance.Secondary;
 
     [ObservableProperty]
@@ -27,7 +21,7 @@ public partial class SnackbarViewModel : ObservableObject
         get => _snackbarAppearanceComboBoxSelectedIndex;
         set
         {
-            SetProperty<int>(ref _snackbarAppearanceComboBoxSelectedIndex, value);
+            _ = SetProperty(ref _snackbarAppearanceComboBoxSelectedIndex, value);
             UpdateSnackbarAppearance(value);
         }
     }
@@ -35,7 +29,7 @@ public partial class SnackbarViewModel : ObservableObject
     [RelayCommand]
     private void OnOpenSnackbar(object sender)
     {
-        _snackbarService.Show(
+        snackbarService.Show(
             "Don't Blame Yourself.",
             "No Witcher's Ever Died In His Bed.",
             _snackbarAppearance,
@@ -56,7 +50,7 @@ public partial class SnackbarViewModel : ObservableObject
             6 => ControlAppearance.Light,
             7 => ControlAppearance.Dark,
             8 => ControlAppearance.Transparent,
-            _ => ControlAppearance.Primary
+            _ => ControlAppearance.Primary,
         };
     }
 }

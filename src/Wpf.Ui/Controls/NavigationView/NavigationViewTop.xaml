@@ -127,22 +127,25 @@
             </Grid.RowDefinitions>
             <Border x:Name="MainBorder">
                 <Grid>
-                    <Grid Margin="8,8,8,8">
+                    <Grid
+                        Margin="8,8,8,8"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <Grid Grid.Column="0">
-                            <ContentPresenter
-                                x:Name="IconContentPresenter"
-                                Margin="0,0,6,0"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Content="{TemplateBinding Icon}"
-                                TextElement.FontSize="16"
-                                TextElement.Foreground="{DynamicResource NavigationViewItemForeground}" />
-                        </Grid>
+                        <ContentPresenter
+                            x:Name="IconContentPresenter"
+                            Grid.Column="0"
+                            Margin="0,0,6,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Content="{TemplateBinding Icon}"
+                            TextElement.FontSize="16"
+                            TextElement.Foreground="{DynamicResource NavigationViewItemForeground}" />
+
                         <ContentPresenter
                             x:Name="ElementContentPresenter"
                             Grid.Column="1"
@@ -156,6 +159,14 @@
                             Grid.Column="2"
                             Width="0"
                             Visibility="Collapsed" />
+
+                        <ContentPresenter
+                            x:Name="PART_InfoBadge"
+                            Grid.Column="2"
+                            Margin="2"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Content="{TemplateBinding InfoBadge}" />
                     </Grid>
                     <Rectangle
                         x:Name="ActiveRectangle"
@@ -180,7 +191,7 @@
                 HorizontalOffset="-12"
                 IsOpen="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
                 Placement="Bottom"
-                PlacementTarget="{Binding ElementName=Border}"
+                PlacementTarget="{Binding ElementName=MainBorder}"
                 PopupAnimation="None"
                 StaysOpen="False"
                 VerticalOffset="1">
@@ -189,10 +200,10 @@
                     x:Name="SubMenuBorder"
                     Margin="12,0,12,18"
                     Padding="0,3,0,3"
-                    BorderBrush="{DynamicResource FlyoutBackground}"
+                    Background="{DynamicResource FlyoutBackground}"
+                    BorderBrush="{DynamicResource FlyoutBorderBrush}"
                     BorderThickness="1"
                     CornerRadius="8"
-                    Background="{DynamicResource FlyoutBorderBrush}"
                     SnapsToDevicePixels="True">
                     <Border.RenderTransform>
                         <TranslateTransform />
@@ -309,11 +320,11 @@
                                 From="0.0"
                                 To="1.0"
                                 Duration="0:0:0.167" />
-                            <DoubleAnimation
+                            <!--<DoubleAnimation
                                 Storyboard.TargetName="ChevronIcon"
                                 Storyboard.TargetProperty="(Control.RenderTransform).(RotateTransform.Angle)"
                                 To="-180"
-                                Duration="00:00:00.167" />
+                                Duration="00:00:00.167" />-->
                         </Storyboard>
                     </BeginStoryboard>
                 </Trigger.EnterActions>
@@ -327,11 +338,11 @@
                                 To="0.0"
                                 Duration="0:0:0.167" />
 
-                            <DoubleAnimation
+                            <!--<DoubleAnimation
                                 Storyboard.TargetName="ChevronIcon"
                                 Storyboard.TargetProperty="(Control.RenderTransform).(RotateTransform.Angle)"
                                 To="0"
-                                Duration="00:00:00.167" />
+                                Duration="00:00:00.167" />-->
                         </Storyboard>
                     </BeginStoryboard>
                 </Trigger.ExitActions>

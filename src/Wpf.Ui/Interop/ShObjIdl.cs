@@ -6,11 +6,16 @@
 // This Source Code is partially based on reverse engineering of the Windows Operating System,
 // and is intended for use on Windows systems only.
 // This Source Code is partially based on the source code provided by the .NET Foundation.
-
-// NOTE
+//
+// NOTE:
 // I split unmanaged code stuff into the NativeMethods library.
 // If you have suggestions for the code below, please submit your changes there.
 // https://github.com/lepoco/nativemethods
+
+// ReSharper disable IdentifierTypo
+// ReSharper disable InconsistentNaming
+#pragma warning disable SA1307 // Accessible fields should begin with upper-case letter
+#pragma warning disable CA1060 // Move pinvokes to native methods class
 
 using System.Runtime.InteropServices;
 
@@ -19,8 +24,6 @@ namespace Wpf.Ui.Interop;
 /// <summary>
 /// Exposes methods that enumerate the contents of a view and receive notification from callback upon enumeration completion.
 /// </summary>
-// ReSharper disable IdentifierTypo
-// ReSharper disable InconsistentNaming
 internal static class ShObjIdl
 {
     /// <summary>
@@ -34,7 +37,7 @@ internal static class ShObjIdl
         THBF_DISMISSONCLICK = 0x2,
         THBF_NOBACKGROUND = 0x4,
         THBF_HIDDEN = 0x8,
-        THBF_NONINTERACTIVE = 0x10
+        THBF_NONINTERACTIVE = 0x10,
     }
 
     /// <summary>
@@ -46,7 +49,7 @@ internal static class ShObjIdl
         THB_BITMAP = 0x1,
         THB_ICON = 0x2,
         THB_TOOLTIP = 0x4,
-        THB_FLAGS = 0x8
+        THB_FLAGS = 0x8,
     }
 
     /// <summary>
@@ -59,7 +62,7 @@ internal static class ShObjIdl
         TBPF_INDETERMINATE = 0x1,
         TBPF_NORMAL = 0x2,
         TBPF_ERROR = 0x4,
-        TBPF_PAUSED = 0x8
+        TBPF_PAUSED = 0x8,
     }
 
     /// <summary>
@@ -72,7 +75,7 @@ internal static class ShObjIdl
         STPF_USEAPPTHUMBNAILALWAYS = 0x1,
         STPF_USEAPPTHUMBNAILWHENACTIVE = 0x2,
         STPF_USEAPPPEEKALWAYS = 0x4,
-        STPF_USEAPPPEEKWHENACTIVE = 0x8
+        STPF_USEAPPPEEKWHENACTIVE = 0x8,
     }
 
     /// <summary>
@@ -88,7 +91,7 @@ internal static class ShObjIdl
         EBO_NOWRAPPERWINDOW = 0x10,
         EBO_HTMLSHAREPOINTVIEW = 0x20,
         EBO_NOBORDER = 0x40,
-        EBO_NOPERSISTVIEWSTATE = 0x80
+        EBO_NOPERSISTVIEWSTATE = 0x80,
     }
 
     /// <summary>
@@ -98,7 +101,7 @@ internal static class ShObjIdl
     {
         EBF_NONE = 0,
         EBF_SELECTFROMDATAOBJECT = 0x100,
-        EBF_NODROPTARGET = 0x200
+        EBF_NODROPTARGET = 0x200,
     }
 
     /// <summary>
@@ -170,7 +173,7 @@ internal static class ShObjIdl
 
         // ITaskbarList3
         [PreserveSig]
-        void SetProgressValue(IntPtr hwnd, UInt64 ullCompleted, UInt64 ullTotal);
+        void SetProgressValue(IntPtr hwnd, ulong ullCompleted, ulong ullTotal);
 
         [PreserveSig]
         void SetProgressState(IntPtr hwnd, TBPFLAG tbpFlags);
@@ -188,11 +191,11 @@ internal static class ShObjIdl
         void SetTabActive(IntPtr hwndTab, IntPtr hwndInsertBefore, uint dwReserved);
 
         /// <summary>
-        ///
+        /// Adds thumbnail toolbar buttons to the specified window.
         /// </summary>
-        /// <param name="hwnd"></param>
-        /// <param name="cButtons"></param>
-        /// <param name="pButtons"></param>
+        /// <param name="hwnd">Window handle.</param>
+        /// <param name="cButtons">Number of buttons.</param>
+        /// <param name="pButtons">Array of buttons.</param>
         /// <returns>HRESULT</returns>
         [PreserveSig]
         int ThumbBarAddButtons(
@@ -202,11 +205,11 @@ internal static class ShObjIdl
         );
 
         /// <summary>
-        ///
+        /// Updates thumbnail toolbar buttons for the specified window.
         /// </summary>
-        /// <param name="hwnd"></param>
-        /// <param name="cButtons"></param>
-        /// <param name="pButtons"></param>
+        /// <param name="hwnd">Window handle.</param>
+        /// <param name="cButtons">Number of buttons.</param>
+        /// <param name="pButtons">Array of buttons to update.</param>
         /// <returns>HRESULT</returns>
         [PreserveSig]
         int ThumbBarUpdateButtons(
@@ -235,3 +238,6 @@ internal static class ShObjIdl
         void SetTabProperties(IntPtr hwndTab, STPFLAG stpFlags);
     }
 }
+
+#pragma warning restore SA1307 // Accessible fields should begin with upper-case letter
+#pragma warning restore CA1060 // Move pinvokes to native methods class

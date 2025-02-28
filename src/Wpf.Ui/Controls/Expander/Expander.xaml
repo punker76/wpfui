@@ -30,8 +30,8 @@
                 Grid.Column="0"
                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                TextElement.FontSize="{TemplateBinding FontSize}"
-                Content="{TemplateBinding Content}" />
+                Content="{TemplateBinding Content}"
+                TextElement.FontSize="{TemplateBinding FontSize}" />
             <Grid
                 x:Name="ChevronGrid"
                 Grid.Column="1"
@@ -106,7 +106,7 @@
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
                         <!--  Top level controls always visible  -->

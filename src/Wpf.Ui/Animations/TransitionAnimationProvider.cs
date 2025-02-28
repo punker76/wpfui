@@ -27,33 +27,19 @@ public static class TransitionAnimationProvider
     /// <param name="type">Selected transition type.</param>
     /// <param name="duration">Transition duration.</param>
     /// <returns>Returns <see langword="true"/> if the transition was applied. Otherwise <see langword="false"/>.</returns>
-    public static bool ApplyTransition(object element, Transition type, int duration)
+    public static bool ApplyTransition(object? element, Transition type, int duration)
     {
-        if (type == Transition.None)
+        if (
+            type == Transition.None
+            || !HardwareAcceleration.IsSupported(RenderingTier.PartialAcceleration)
+            || element is not UIElement uiElement
+            || duration < 10
+        )
         {
             return false;
         }
 
-        // Disable transitions for non-accelerated devices.
-        if (!HardwareAcceleration.IsSupported(RenderingTier.PartialAcceleration))
-        {
-            return false;
-        }
-
-        if (element is not UIElement uiElement)
-        {
-            return false;
-        }
-
-        if (duration < 10)
-        {
-            return false;
-        }
-
-        if (duration > 10000)
-        {
-            duration = 10000;
-        }
+        duration = duration > 10000 ? 10000 : duration;
 
         var timespanDuration = new Duration(TimeSpan.FromMilliseconds(duration));
 
@@ -122,9 +108,10 @@ public static class TransitionAnimationProvider
             animatedUiElement.SetCurrentValue(UIElement.RenderTransformOriginProperty, new Point(0.5, 0.5));
         }
 
-        animatedUiElement
-            .RenderTransform
-            .BeginAnimation(TranslateTransform.YProperty, translateDoubleAnimation);
+        animatedUiElement.RenderTransform.BeginAnimation(
+            TranslateTransform.YProperty,
+            translateDoubleAnimation
+        );
 
         var opacityDoubleAnimation = new DoubleAnimation
         {
@@ -160,9 +147,10 @@ public static class TransitionAnimationProvider
             animatedUiElement.SetCurrentValue(UIElement.RenderTransformOriginProperty, new Point(0.5, 0.5));
         }
 
-        animatedUiElement
-            .RenderTransform
-            .BeginAnimation(TranslateTransform.YProperty, translateDoubleAnimation);
+        animatedUiElement.RenderTransform.BeginAnimation(
+            TranslateTransform.YProperty,
+            translateDoubleAnimation
+        );
     }
 
     private static void SlideRightTransition(UIElement animatedUiElement, Duration duration)
@@ -188,9 +176,10 @@ public static class TransitionAnimationProvider
             animatedUiElement.SetCurrentValue(UIElement.RenderTransformOriginProperty, new Point(0.5, 0.5));
         }
 
-        animatedUiElement
-            .RenderTransform
-            .BeginAnimation(TranslateTransform.XProperty, translateDoubleAnimation);
+        animatedUiElement.RenderTransform.BeginAnimation(
+            TranslateTransform.XProperty,
+            translateDoubleAnimation
+        );
     }
 
     private static void SlideLeftTransition(UIElement animatedUiElement, Duration duration)
@@ -216,8 +205,9 @@ public static class TransitionAnimationProvider
             animatedUiElement.SetCurrentValue(UIElement.RenderTransformOriginProperty, new Point(0.5, 0.5));
         }
 
-        animatedUiElement
-            .RenderTransform
-            .BeginAnimation(TranslateTransform.XProperty, translateDoubleAnimation);
+        animatedUiElement.RenderTransform.BeginAnimation(
+            TranslateTransform.XProperty,
+            translateDoubleAnimation
+        );
     }
 }

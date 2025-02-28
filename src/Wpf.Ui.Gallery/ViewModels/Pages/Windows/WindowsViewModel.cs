@@ -10,29 +10,22 @@ using Wpf.Ui.Gallery.Views.Windows;
 
 namespace Wpf.Ui.Gallery.ViewModels.Pages.Windows;
 
-public partial class WindowsViewModel : ObservableObject
+public partial class WindowsViewModel(WindowsProviderService windowsProviderService) : ViewModel
 {
-    private readonly WindowsProviderService _windowsProviderService;
-
     [ObservableProperty]
-    private IEnumerable<WindowCard> _windowCards = new WindowCard[]
-    {
+    private WindowCard[] _windowCards =
+    [
         new("Monaco", "Visual Studio Code in your WPF app.", SymbolRegular.CodeBlock24, "monaco"),
         new("Editor", "Text editor with tabbed background.", SymbolRegular.ScanText24, "editor"),
 #if DEBUG
         new("Sandbox", "Sandbox for controls testing.", SymbolRegular.ScanText24, "sandbox"),
 #endif
-    };
-
-    public WindowsViewModel(WindowsProviderService windowsProviderService)
-    {
-        _windowsProviderService = windowsProviderService;
-    }
+    ];
 
     [RelayCommand]
     public void OnOpenWindow(string value)
     {
-        if (String.IsNullOrEmpty(value))
+        if (string.IsNullOrEmpty(value))
         {
             return;
         }
@@ -40,15 +33,15 @@ public partial class WindowsViewModel : ObservableObject
         switch (value)
         {
             case "monaco":
-                _windowsProviderService.Show<MonacoWindow>();
+                windowsProviderService.Show<MonacoWindow>();
                 break;
 
             case "editor":
-                _windowsProviderService.Show<EditorWindow>();
+                windowsProviderService.Show<EditorWindow>();
                 break;
 
             case "sandbox":
-                _windowsProviderService.Show<SandboxWindow>();
+                windowsProviderService.Show<SandboxWindow>();
                 break;
         }
     }

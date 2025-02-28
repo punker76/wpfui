@@ -35,7 +35,7 @@ public partial class ThemeService : IThemeService
             SystemTheme.HC1 => ApplicationTheme.HighContrast,
             SystemTheme.HC2 => ApplicationTheme.HighContrast,
             SystemTheme.HCWhite => ApplicationTheme.HighContrast,
-            _ => ApplicationTheme.Unknown
+            _ => ApplicationTheme.Unknown,
         };
     }
 
@@ -72,7 +72,7 @@ public partial class ThemeService : IThemeService
     public bool SetAccent(SolidColorBrush accentSolidBrush)
     {
         Color color = accentSolidBrush.Color;
-        color.A = (byte)Math.Round(accentSolidBrush.Opacity * Byte.MaxValue);
+        color.A = (byte)Math.Round(accentSolidBrush.Opacity * byte.MaxValue);
 
         ApplicationAccentColorManager.Apply(color);
 

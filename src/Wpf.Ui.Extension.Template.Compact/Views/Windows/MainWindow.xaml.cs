@@ -1,37 +1,65 @@
-﻿// This Source Code Form is subject to the terms of the MIT License.
-// If a copy of the MIT was not distributed with this file, You can obtain one at https://opensource.org/licenses/MIT.
-// Copyright (C) Leszek Pomianowski and WPF UI Contributors.
-// All Rights Reserved.
-
-using $safeprojectname$.ViewModels.Windows;
+﻿using $safeprojectname$.ViewModels.Windows;
+using Wpf.Ui;
+using Wpf.Ui.Abstractions;
+using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
 namespace $safeprojectname$.Views.Windows
 {
-    public partial class MainWindow
+    public partial class MainWindow : INavigationWindow
     {
         public MainWindowViewModel ViewModel { get; }
 
         public MainWindow(
             MainWindowViewModel viewModel,
-            INavigationService navigationService,
-            IServiceProvider serviceProvider,
-            ISnackbarService snackbarService,
-            IContentDialogService contentDialogService
+            INavigationViewPageProvider navigationViewPageProvider,
+            INavigationService navigationService
         )
         {
-            Wpf.Ui.Appearance.Watcher.Watch(this);
-
             ViewModel = viewModel;
             DataContext = this;
 
+            SystemThemeWatcher.Watch(this);
+
             InitializeComponent();
+            SetPageService(navigationViewPageProvider);
 
-            navigationService.SetNavigationControl(NavigationView);
-            snackbarService.SetSnackbarPresenter(SnackbarPresenter);
-            contentDialogService.SetContentPresenter(RootContentDialog);
+            navigationService.SetNavigationControl(RootNavigation);
+        }
 
-            NavigationView.SetServiceProvider(serviceProvider);
+        #region INavigationWindow methods
+
+        public INavigationView GetNavigation() => RootNavigation;
+
+        public bool Navigate(Type pageType) => RootNavigation.Navigate(pageType);
+
+        public void SetPageService(INavigationViewPageProvider navigationViewPageProvider) => RootNavigation.SetPageProviderService(navigationViewPageProvider);
+
+        public void ShowWindow() => Show();
+
+        public void CloseWindow() => Close();
+
+        #endregion INavigationWindow methods
+
+        /// <summary>
+        /// Raises the closed event.
+        /// </summary>
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+
+            // Make sure that closing this window will begin the process of closing the application.
+            Application.Current.Shutdown();
+        }
+
+        INavigationView INavigationWindow.GetNavigation()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetServiceProvider(IServiceProvider serviceProvider)
+        {
+            throw new NotImplementedException();
         }
     }
 }
